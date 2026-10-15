@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page — Novaspark Games</title>
+    <link rel="stylesheet" href="Stylesheet.css">
+
+    <style>
+      
+        #hero {
+            background-image: linear-gradient(rgba(11, 30, 15, 0.75), rgba(11, 30, 15, 0.9)), 
+                              url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1600');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100%;
+            padding: 100px 20px;
+            box-sizing: border-box;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-sub {
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-title {
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .badge--soon {
+            background-color: rgba(92, 151, 88, 0.15) !important;
+            border: 1px solid #5c9758 !important;
+            color: #5c9758 !important;
+        }
+
+        .game-title-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .game-table-thumb {
+            width: 36px;
+            height: 36px;
+            object-fit: cover;
+            border-radius: 3px;
+            border: 1px solid #5c9758;
+            background-color: var(--header-bg);
+            flex-shrink: 0;
+        }
+
+        .news-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 8px;
+        }
+
+    </style>
+</head>
+<body>
+
+  <header id="site-header">
+    <div class="header-inner">
+      <div class="site-logo">NOVASPARK GAMES</div>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="home_page.html" class="nav-link nav-link--active">Home</a>
+        <a href="products.php"   class="nav-link">Products</a>
+        <a href="About.html"     class="nav-link">About Us</a>
+        <a href="contact.php"    class="nav-link">Contact Us</a>
+        <a href="search.php"     class="nav-link">Search</a>
+        <a href="order.php"      class="nav-link">Order</a>
+        <a href="login.php"      class="nav-link">Login</a>
+        <a href="register.php"   class="nav-link">Register</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <section id="hero" class="section">
+      <h1 class="hero-title">Welcome to Novaspark Games</h1>
+      <p class="hero-sub">
+        Here imagination becomes interactive. We build worlds that pull you in
+        and keep you. From the opening title screen, to the final credits.
+        Explore our catalogue, learn about the studio, and find your next obsession.
+      </p>
+      <button class="btn-primary" onclick="learnMore()">
+        Discover More
+      </button>
+    </section>
+
+    <section id="about-us" class="section">
+      <h2 class="section-title">About Novaspark</h2>
+      <div class="card-grid">
+        <div class="info-card">
+          <h3 class="card-title">Who We Are</h3>
+          <p class="card-text">
+            Novaspark Games is an independent studio founded by a small team with a
+            big ambition: to make games that matter. We believe in tight storytelling,
+            satisfying mechanics, and worlds that reward curiosity.
+          </p>
+        </div>
+        <div class="info-card">
+          <h3 class="card-title">Our Vision</h3>
+          <p class="card-text">
+            Every game we make starts with a question; what would make a player
+            feel genuinely surprised, moved, or proud? We design backwards from
+            that feeling, building systems and stories that deliver it consistently.
+          </p>
+        </div>
+        <div class="info-card">
+          <h3 class="card-title">Our Technology</h3>
+          <p class="card-text">
+            We work across proprietary and industry-standard engines to ship
+            polished titles on PC, console, and mobile. Accessibility and
+            performance aren't afterthoughts — they're built into our pipeline
+            from day one.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="featured-games" class="section">
+      <h2 class="section-title">Featured Games</h2>
+      <div class="table-wrap">
+        <table id="games-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Genre</th>
+              <th>Platform</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="game-title">
+                <div class="game-title-container">
+                  <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=100" alt="Void Protocol Icon" class="game-table-thumb" loading="lazy">
+                  <span>Void Protocol</span>
+                </div>
+              </td>
+              <td>Sci-Fi RPG</td>
+              <td>PC / PS5 / Xbox</td>
+              <td><span class="badge badge--live">Available</span></td>
+            </tr>
+            <tr>
+              <td class="game-title">
+                <div class="game-title-container">
+                  <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=100" alt="Shadow Nova Icon" class="game-table-thumb" loading="lazy">
+                  <span>Shadow Nova</span>
+                </div>
+              </td>
+              <td>Action Stealth</td>
+              <td>PC / PS5</td>
+              <td><span class="badge badge--live">Available</span></td>
+            </tr>
+            <tr>
+              <td class="game-title">
+                <div class="game-title-container">
+                  <img src="https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?q=80&w=100" alt="Nebula Drift Icon" class="game-table-thumb" loading="lazy">
+                  <span>Nebula Drift</span>
+                </div>
+              </td>
+              <td>Space Explorer</td>
+              <td>PC / Mobile</td>
+              <td><span class="badge badge--soon">Coming Soon</span></td>
+            </tr>
+            <tr>
+              <td class="game-title">
+                <div class="game-title-container">
+                  <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=100" alt="Iron Circuit Icon" class="game-table-thumb" loading="lazy">
+                  <span>Iron Circuit</span>
+                </div>
+              </td>
+              <td>Racing / Mech</td>
+              <td>PC / Xbox / Mobile</td>
+              <td><span class="badge badge--beta">Beta</span></td>
+            </tr>
+            <tr>
+              <td class="game-title">
+                <div class="game-title-container">
+                  <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=100" alt="Echoes of Arun Icon" class="game-table-thumb" loading="lazy">
+                  <span>Echoes of Arun</span>
+                </div>
+              </td>
+              <td>Fantasy RPG</td>
+              <td>PC / PS5 / Xbox</td>
+              <td><span class="badge badge--soon">Coming Soon</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="latest-news" class="section">
+      <h2 class="section-title">Latest News</h2>
+      <div class="divider"><span>Studio Updates</span></div>
+      <div class="news-layout">
+        <div class="news-buttons">
+          <p class="news-hint">&#9656; Select a headline to read more:</p>
+          <button class="news-btn news-btn--active" onclick="showNews('n1', event)">
+            Void Protocol Earns BAFTA Recognition for its Branching Narrative System
+          </button>
+          <button class="news-btn" onclick="showNews('n2', event)">
+            Nebula Drift has a Release Date. Mark your Calendar for 30th June 2026
+          </button>
+          <button class="news-btn" onclick="showNews('n3', event)">
+            Novaspark is growing. 10 New Developers have Joined the Team
+          </button>
+          <button class="news-btn" onclick="showNews('n4', event)">
+            Iron Circuit Open Beta is live. Sign Up to Play the First Two Tracks
+          </button>
+        </div> <!-- end .news-buttons -->
+      </div> <!-- end .news-layout -->
+    </section>
+
+    <section id="newsletter" class="section">
+      <h2 class="section-title">Stay Ahead</h2>
+      <div class="divider"><span>Newsletter</span></div>
+      <p class="form-intro">
+        Sign up to receive exclusive news, early access invitations,
+        and updates directly to your inbox.
+      </p>
+      <form id="signup-form" action="#" method="get">
+        <div class="form-row">
+          <label for="user-name">Your Name:</label>
+          <input
+            type="text"
+            id="user-name"
+            name="user-name"
+            placeholder="Enter your name"
+          />
+        </div>
+        <div class="form-row">
+          <label for="user-email">Email Address:</label>
+          <input
+            type="email"
+            id="user-email"
+            name="user-email"
+            placeholder="Enter your email"
+          />
+        </div>
+        <button
+          type="submit"
+          class="btn-primary"
+          onmouseover="hoverSubmit(this, true)"
+          onmouseout="hoverSubmit(this, false)"
+          onclick="handleSignup(event)"
+        >
+          Subscribe Now
+        </button>
+        <p id="form-message" class="form-message"></p>
+      </form>
+    </section>
+
+  </main>
+
+  <footer id="site-footer">
+    <div class="footer-inner">
+      <span class="footer-brand">Novaspark Games</span>
+      <span class="footer-sep">|</span>
+      <a href="mailto:info@novasparkgames.example.com" class="footer-link">
+        info@novasparkgames.example.com
+      </a>
+      <span class="footer-sep">|</span>
+      <span class="footer-note">&copy; 2026 Novaspark Games</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

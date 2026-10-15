@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Novaspark Games</title>
+    
+    <link rel="stylesheet" href="Stylesheet.css">
+
+    <style>
+
+        .team-avatar {
+          width: 100px;
+          height: 100px;
+          flex-shrink: 0;  
+          border-radius: 50%;
+          overflow: hidden;
+          border: 2px solid #5c9758;
+      }
+
+.team-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+        .team-member:hover .team-avatar {
+            transform: scale(1.05);
+            border-color: var(--accent);
+        }
+
+        .member-role {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: #5c9758;
+            margin-top: 4px;
+        }
+
+        .team-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.team-member {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    cursor: pointer;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+.team-member-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+#about-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+}
+
+#about-hero .hero-sub {
+    max-width: 750px;
+    margin: 20px auto 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+    </style>
+</head>
+
+<script>
+const bios = {
+  t1: {
+    name: "Precious Nwachukwu",
+    role: "Lead Developer & Founder",
+    img:  "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=300",
+    text: "Precious co-founded Novaspark Games after six years shipping titles at two AAA studios. She leads engine architecture and core gameplay systems, and is the reason the studio's framerate targets are non-negotiable."
+  },
+  t2: {
+    name: "Elena Rostova",
+    role: "Art Director",
+    img:  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300",
+    text: "Elena brings a background in concept art and film production design to every Novaspark title. She sets the visual language of each project from the first mood board to the final colour grade."
+  },
+  t3: {
+    name: "Marcus Thorne",
+    role: "Audio Engineer",
+    img:  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300",
+    text: "Marcus composes original scores and builds the full sound design pipeline. His adaptive audio system — which responds in real time to player state — has become one of Novaspark's most praised technical achievements."
+  }
+};
+
+function showBio(id, event) {
+  const member = bios[id];
+  if (!member) return;
+
+  document.getElementById('bio-name').textContent  = member.name;
+  document.getElementById('bio-role').textContent  = member.role;
+  document.getElementById('bio-text').textContent  = member.text;
+  document.getElementById('bio-avatar').innerHTML  =
+    `<img src="${member.img}" alt="${member.name}"
+          style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid #5c9758;">`;
+
+  const modal = document.getElementById('bio-modal');
+  modal.style.display = 'flex';
+}
+
+function closeBio() {
+  document.getElementById('bio-modal').style.display = 'none';
+}
+
+document.getElementById('bio-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeBio();
+});
+</script>
+
+<body>
+
+  <header id="site-header">
+    <div class="header-inner">
+      <div class="site-logo">NOVASPARK GAMES</div>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="Home_Page.html" class="nav-link">Home</a>
+        <a href="products.php"   class="nav-link">Products</a>
+        <a href="About.html"     class="nav-link nav-link--active">About Us</a>
+        <a href="contact.php"   class="nav-link">Contact Us</a>
+        <a href="search.php"     class="nav-link">Search</a>
+        <a href="order.php"      class="nav-link">Order</a>
+        <a href="login.php"      class="nav-link">Login</a>
+        <a href="register.php" class="nav-link">Register</a>
+        <a href="links.html"     class="nav-link">Useful Links</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <section id="about-hero" class="section">
+      <h1 class="hero-title">Our Story</h1>
+      <p class="hero-sub">
+        Novaspark Games began as a two-person project in a shared flat, built
+        on strong coffee and a conviction that independent studios can compete
+        with the biggest names in the industry, on one condition; boldness. 
+      </p>
+    </section>
+
+    <section id="values" class="section">
+      <h2 class="section-title">Core Values</h2>
+      <div class="divider"><span>What Drives Us</span></div>
+      
+      <div class="card-grid">
+        <div class="info-card">
+          <h3 class="card-title">Innovation First</h3>
+          <p class="card-text">
+            We set out to build things we haven't seen before. Our internal engine
+            gives us the freedom to prototype rapidly and ship mechanics that feel
+            genuinely fresh, not borrowed from last year's bestseller.
+          </p>
+        </div>
+        <div class="info-card">
+          <h3 class="card-title">Player-Centric</h3>
+          <p class="card-text">
+            Our playtesting process is ruthless. If a feature doesn't make the
+            experience better for the person holding the controller, it doesn't
+            ship. Your time and intelligence are never taken for granted.
+          </p>
+        </div>
+        <div class="info-card">
+          <h3 class="card-title">Artistic Integrity</h3>
+          <p class="card-text">
+            From the moment you boot a Novaspark title, every visual, every
+            note, every line of dialogue has been through multiple rounds of
+            creative review. We don't compromise on craft.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="team" class="section">
+      <h2 class="section-title">Meet the Team</h2>
+      <div class="divider"><span>The Minds Behind the Magic</span></div>
+      
+      <p class="news-hint" style="margin-bottom: 24px;">&#9656; Click a team member to read their bio:</p>
+      
+      <div class="team-grid">
+        </div>
+        
+        <div class="team-member" onclick="showBio('t1', event)">
+          <div class="team-avatar">
+            <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=300" alt="Precious Nwachukwu">
+          </div>
+          <div class="team-member-info">
+            <h3 class="card-title">Precious Nwachukwu</h3>
+            <div class="member-role">Lead Developer & Founder</div>
+          </div>
+      </div>
+
+        <div class="team-member" onclick="showBio('t2', event)">
+          <div class="team-avatar">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300" alt="Elena Rostova">
+          </div>
+          <div class="team-member-info">
+              <h3 class="card-title">Elena Rostova</h3>
+              <div class="member-role">Art Director</div>
+          </div>
+      </div>
+        
+        <div class="team-member" onclick="showBio('t3', event)">
+          <div class="team-avatar">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300" alt="Marcus Thorne">
+          </div>
+          <div class="team-member-info">
+              <h3 class="card-title">Marcus Thorne</h3>
+              <div class="member-role">Audio Engineer</div>
+          </div>
+        </div>
+
+    </section>
+
+    <div id="bio-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7);
+     z-index:1000; align-items:center; justify-content:center;">
+  <div style="background:var(--surface, #0d2b1a); border:1px solid var(--border, #2a4a30);
+       border-radius:8px; padding:32px; max-width:500px; width:90%; position:relative;">
+    <button onclick="closeBio()" style="position:absolute; top:12px; right:16px;
+        background:none; border:none; color:#fff; font-size:1.4rem; cursor:pointer;">&times;</button>
+    <div id="bio-avatar" style="text-align:center; margin-bottom:16px;"></div>
+    <h3 id="bio-name" style="color:#5c9758; margin-bottom:4px;"></h3>
+    <div id="bio-role" style="font-family:monospace; font-size:0.75rem;
+         color:#5c9758; margin-bottom:16px;"></div>
+    <p id="bio-text" style="line-height:1.7;"></p>
+  </div>
+</div>
+
+  </main>
+
+  <footer id="site-footer">
+    <div class="footer-inner">
+      <span class="footer-brand">Novaspark Games</span>
+      <span class="footer-sep">|</span>
+      <a href="mailto:info@novasparkgames.example.com" class="footer-link">
+        info@novasparkgames.example.com
+      </a>
+      <span class="footer-sep">|</span>
+      <span class="footer-note">&copy; 2026 Novaspark Games</span>
+    </div>
+  </footer>
+
+</body>
+</html>

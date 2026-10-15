@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Useful Links &amp; References</title>
+  <style>
+    :root {
+      --bg:           #0b1e0f;
+      --panel:        #14301c;
+      --header-bg:    #071409;
+      --border:       rgba(93, 252, 141, 0.15);
+      --accent:       #5dfc8d;
+      --accent2:      #fbbf24;
+      --text:         #e2f4e5;
+      --muted:        #89b895;
+      --success:      #22c55e;
+      --danger:       #f87171;
+      --font-display: 'Times New Roman', Times, serif;
+      --font-mono:    'Courier New', Courier, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-display);
+      overflow-x: hidden;
+    }
+
+    #site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      min-height: 64px;
+    }
+    .site-logo {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      color: var(--accent);
+    }
+    .site-nav {
+      display: flex;
+      gap: 28px;
+    }
+    .nav-link {
+      font-family: var(--font-display);
+      font-size: .62rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      transition: color .2s;
+      padding-bottom: 3px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .nav-link:hover        { color: var(--accent); }
+    .nav-link--active      { color: var(--accent) !important; font-weight: bold; border-bottom: 2px solid var(--accent); }
+
+    #main-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    #hero {
+      text-align: center;
+      padding: 60px 0 20px;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: .06em;
+      line-height: 1.1;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 24px rgba(93, 252, 141, 0.35));
+      margin-bottom: 20px;
+    }
+    .hero-sub {
+      font-size: .95rem;
+      line-height: 1.8;
+      color: var(--text);
+      max-width: 620px;
+      margin: 0 auto 32px;
+    }
+
+    .section {
+      margin-bottom: 72px;
+      animation: fadeUp .7s ease both;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 3.5vw, 2rem);
+      font-weight: 700;
+      letter-spacing: .06em;
+      color: var(--text);
+      margin-bottom: 12px;
+      text-align: center;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .divider span {
+      font-size: .58rem;
+      letter-spacing: .3em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .info-card {
+      background-color: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px 24px;
+      transition: border-color .25s, transform .2s;
+      position: relative;
+    }
+    .info-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .info-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 15%; right: 15%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .card-text {
+      font-size: .82rem;
+      line-height: 1.75;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .card-link {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--accent2);
+      text-decoration: none;
+      letter-spacing: .05em;
+      transition: color .2s;
+    }
+    .card-link:hover { color: var(--accent); text-decoration: underline; }
+    .card-link::before { content: '→ '; }
+
+    .ref-block {
+      background-color: var(--panel);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 32px 36px;
+      border-radius: 2px;
+      font-size: .84rem;
+      line-height: 1.75;
+    }
+    .ref-block-label {
+      font-family: var(--font-mono);
+      font-size: .62rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 24px;
+    }
+    .ref-list {
+      list-style: none;
+      counter-reset: ref-counter;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .ref-list li {
+      counter-increment: ref-counter;
+      font-size: .85rem;
+      color: var(--text);
+      line-height: 1.75;
+      padding-left: 32px;
+      position: relative;
+    }
+    .ref-list li::before {
+      content: '[' counter(ref-counter) ']';
+      position: absolute;
+      left: 0;
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      color: var(--accent);
+      top: 3px;
+    }
+    .ref-list a {
+      color: var(--accent2);
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .ref-list a:hover { color: var(--accent); text-decoration: underline; }
+
+    #site-footer {
+      background-color: var(--header-bg);
+      border-top: 1px solid var(--border);
+      padding: 20px 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: .65rem;
+      letter-spacing: .1em;
+    }
+    .footer-brand { font-family: var(--font-display); font-weight: 700; color: var(--accent); }
+    .footer-sep   { color: var(--border); }
+    .footer-note  { color: var(--muted); }
+    .footer-link:link    { color: var(--accent2); text-decoration: none; }
+    .footer-link:visited { color: var(--accent2); text-decoration: none; }
+    .footer-link:hover   { color: var(--accent);  text-decoration: none; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 700px) {
+      .site-nav { gap: 16px; }
+      .nav-link { font-size: .55rem; }
+      .header-inner { flex-direction: column; padding: 12px 16px; gap: 8px; }
+      .ref-block { padding: 20px; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="header-inner">
+    <div class="site-logo">NOVASPARK GAMES</div>
+    <nav class="site-nav">
+        <a href="Home_Page.html" class="nav-link">Home</a>
+        <a href="products.php"   class="nav-link">Products</a>
+        <a href="About.html"     class="nav-link">About Us</a>
+        <a href="links.html"    class="nav-link nav-link--active">Useful Links</a>
+        <a href="contact.php"   class="nav-link">Contact Us</a>
+        <a href="search.php"     class="nav-link">Search</a>
+        <a href="order.php"      class="nav-link">Order</a>
+        <a href="login.php"      class="nav-link">Login</a>
+    </nav>
+  </div>
+</header>
+
+
+<main id="main-content">
+
+  <section id="hero">
+    <h1 class="hero-title">Useful Links</h1>
+    <p class="hero-sub">References and resources used to research, design, and build this website, compiled for academic and professional transparency.</p>
+  </section>
+
+
+  <section class="section">
+    <h2 class="section-title">Development Resources</h2>
+    <div class="divider"><span>HTML · CSS · JS · PHP</span></div>
+
+    <div class="card-grid">
+
+      <div class="info-card">
+        <div class="card-title">MDN Web Docs</div>
+        <p class="card-text">Comprehensive HTML5, CSS3, and JavaScript documentation maintained by Mozilla. Used throughout development for syntax reference, accessibility attributes, and browser compatibility.</p>
+        <a class="card-link" href="https://developer.mozilla.org" target="_blank" rel="noopener">developer.mozilla.org</a>
+      </div>
+
+      <div class="info-card">
+        <div class="card-title">W3Schools — CSS Tutorial</div>
+        <p class="card-text">Quick reference for CSS selectors, Flexbox, Grid layout, and CSS custom properties. Particularly useful for cross-browser styling and responsive design techniques.</p>
+        <a class="card-link" href="https://www.w3schools.com/css/" target="_blank" rel="noopener">w3schools.com/css</a>
+      </div>
+
+      <div class="info-card">
+        <div class="card-title">JavaScript.info</div>
+        <p class="card-text">Modern JavaScript tutorials used to implement DOM manipulation, event listeners, and dynamic content loading across the site's interactive sections.</p>
+        <a class="card-link" href="https://javascript.info" target="_blank" rel="noopener">javascript.info</a>
+      </div>
+
+      <div class="info-card">
+        <div class="card-title">PHP Manual — php.net</div>
+        <p class="card-text">Official PHP documentation consulted for server-side scripting, form handling, and session management used in the site's back-end functionality.</p>
+        <a class="card-link" href="https://www.php.net/manual/en/" target="_blank" rel="noopener">php.net/manual</a>
+      </div>
+
+      <div class="info-card">
+        <div class="card-title">CSS-Tricks — Flexbox Guide</div>
+        <p class="card-text">Detailed visual guide to CSS Flexbox and Grid layout, used to structure the responsive multi-column layouts throughout the website.</p>
+        <a class="card-link" href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" rel="noopener">css-tricks.com</a>
+      </div>
+
+      <div class="info-card">
+        <div class="card-title">W3C Markup Validator</div>
+        <p class="card-text">Used to validate all HTML and CSS against W3C standards, ensuring every page is well-formed and compliant with current web specifications.</p>
+        <a class="card-link" href="https://validator.w3.org" target="_blank" rel="noopener">validator.w3.org</a>
+      </div>
+
+      <div class="info-card">
+        <div class="card-title">WebAIM Contrast Checker</div>
+        <p class="card-text">Colour contrast ratio tool used to verify all foreground/background combinations meet WCAG 2.1 AA accessibility guidelines across the site.</p>
+        <a class="card-link" href="https://webaim.org/resources/contrastchecker/" target="_blank" rel="noopener">webaim.org</a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <section class="section">
+    <h2 class="section-title">Design Inspiration</h2>
+    <div class="divider"><span>Gaming Sites &amp; UI References</span></div>
+
+    <div class="card-grid">
+
+      <div class="info-card">
+        <div class="card-title">Steam</div>
+        <p class="card-text">Studied Steam's dark-themed UI for card layouts, hover interactions, category filtering, and how large gaming platforms present game libraries to users.</p>
+        <a class="card-link" href="https://store.steampowered.com" target="_blank" rel="noopener">store.steampowered.com</a>
+      </div>
+
+      <div class="info-card">
+        <div class="card-title">IGN</div>
+        <p class="card-text">Referenced IGN's editorial layout for article cards, review score presentation, and responsive navigation patterns for a gaming news and review context.</p>
+        <a class="card-link" href="https://www.ign.com" target="_blank" rel="noopener">ign.com</a>
+      </div>
+
+      <div class="info-card">
+        <div class="card-title">Awwwards</div>
+        <p class="card-text">Consulted award-winning web designs for inspiration on typography pairings, hero section composition, and creative use of colour gradients and negative space.</p>
+        <a class="card-link" href="https://www.awwwards.com" target="_blank" rel="noopener">awwwards.com</a>
+      </div>
+
+      <div class="info-card">
+        <div class="card-title">Coolors</div>
+        <p class="card-text">Used to generate and refine the site's cohesive colour palette, testing complementary and accessible colour combinations before finalising CSS variables.</p>
+        <a class="card-link" href="https://coolors.co" target="_blank" rel="noopener">coolors.co</a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <section class="section">
+    <h2 class="section-title">Media &amp; Assets</h2>
+    <div class="divider"><span>Images · Icons · Fonts</span></div>
+
+    <div class="card-grid">
+
+      <div class="info-card">
+        <div class="card-title">Font Awesome</div>
+        <p class="card-text">Icon library used for navigation, social media links, and decorative UI elements. Embedded via CDN and used under the Font Awesome Free licence.</p>
+        <a class="card-link" href="https://fontawesome.com" target="_blank" rel="noopener">fontawesome.com</a>
+      </div>
+
+      <div class="info-card">
+        <div class="card-title">Unsplash</div>
+        <p class="card-text">Source of free, high-resolution photographs used for hero backgrounds and section imagery. All images used under the Unsplash Licence (free for commercial and personal use).</p>
+        <a class="card-link" href="https://unsplash.com" target="_blank" rel="noopener">unsplash.com</a>
+      </div>
+
+      <div class="info-card">
+        <div class="card-title">RAWG Video Games Database</div>
+        <p class="card-text">API and image database used to source game cover artwork and metadata. Images used for display purposes under RAWG's API terms of service.</p>
+        <a class="card-link" href="https://rawg.io" target="_blank" rel="noopener">rawg.io</a>
+      </div>
+
+      <div class="info-card">
+        <div class="card-title">Favicon.io</div>
+        <p class="card-text">Used to generate a custom favicon for display in browser tabs, producing both PNG and ICO formats for broad browser compatibility.</p>
+        <a class="card-link" href="https://favicon.io" target="_blank" rel="noopener">favicon.io</a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <section class="section">
+    <h2 class="section-title">Harvard Reference List</h2>
+    <div class="divider"><span>Academic References</span></div>
+
+    <div class="ref-block">
+      <p class="ref-block-label">// References — Harvard Style (Author-Date)</p>
+      <ol class="ref-list">
+
+        <li>
+          Mozilla Foundation (2024) <em>MDN Web Docs</em>. Available at:
+          <a href="https://developer.mozilla.org" target="_blank" rel="noopener">https://developer.mozilla.org</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+        <li>
+          W3Schools (2024) <em>CSS Tutorial</em>. Available at:
+          <a href="https://www.w3schools.com/css/" target="_blank" rel="noopener">https://www.w3schools.com/css/</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+        <li>
+          Kantor, I. (ed.) (2024) <em>The Modern JavaScript Tutorial</em>. Available at:
+          <a href="https://javascript.info" target="_blank" rel="noopener">https://javascript.info</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+        <li>
+          The PHP Group (2024) <em>PHP: Hypertext Preprocessor — Manual</em>. Available at:
+          <a href="https://www.php.net/manual/en/" target="_blank" rel="noopener">https://www.php.net/manual/en/</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+        <li>
+          Coyier, C. (2022) 'A Complete Guide to Flexbox', <em>CSS-Tricks</em>. Available at:
+          <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" rel="noopener">https://css-tricks.com/snippets/css/a-guide-to-flexbox/</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+        <li>
+          World Wide Web Consortium (W3C) (2024) <em>Markup Validation Service</em>. Available at:
+          <a href="https://validator.w3.org" target="_blank" rel="noopener">https://validator.w3.org</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+        <li>
+          WebAIM (2024) <em>Contrast Checker</em>, Web Accessibility In Mind. Available at:
+          <a href="https://webaim.org/resources/contrastchecker/" target="_blank" rel="noopener">https://webaim.org/resources/contrastchecker/</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+        <li>
+          Valve Corporation (2024) <em>Steam Store</em>. Available at:
+          <a href="https://store.steampowered.com" target="_blank" rel="noopener">https://store.steampowered.com</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+        <li>
+          Ziff Davis (2024) <em>IGN — Game Reviews, News, Videos &amp; Wikis</em>. Available at:
+          <a href="https://www.ign.com" target="_blank" rel="noopener">https://www.ign.com</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+        <li>
+          Awwwards (2024) <em>Website Awards — Best Web Design Trends</em>. Available at:
+          <a href="https://www.awwwards.com" target="_blank" rel="noopener">https://www.awwwards.com</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+        <li>
+          Coolors (2024) <em>Coolors — The Super Fast Color Palettes Generator</em>. Available at:
+          <a href="https://coolors.co" target="_blank" rel="noopener">https://coolors.co</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+        <li>
+          Fonticons, Inc. (2024) <em>Font Awesome</em>. Available at:
+          <a href="https://fontawesome.com" target="_blank" rel="noopener">https://fontawesome.com</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+        <li>
+          Unsplash (2024) <em>Beautiful Free Images &amp; Pictures</em>. Available at:
+          <a href="https://unsplash.com" target="_blank" rel="noopener">https://unsplash.com</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+        <li>
+          RAWG (2024) <em>RAWG Video Games Database API</em>. Available at:
+          <a href="https://rawg.io/apidocs" target="_blank" rel="noopener">https://rawg.io/apidocs</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+        <li>
+          Favicon.io (2024) <em>Favicon Generator — For Real</em>. Available at:
+          <a href="https://favicon.io" target="_blank" rel="noopener">https://favicon.io</a>
+          (Accessed: <span class="ref-date"></span>).
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-brand">&#9651; GAMEVAULT</span>
+    <span class="footer-sep">|</span>
+    <span class="footer-note">Links &amp; References</span>
+    <span class="footer-sep">|</span>
+    <span class="footer-note">All resources accessed <span id="foot-date"></span></span>
+  </div>
+</footer>
+
+<script>
+  const now    = new Date();
+  const months = ['January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+  const formatted = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+
+  document.querySelectorAll('.ref-date').forEach(el => el.textContent = formatted);
+  document.getElementById('foot-date').textContent = formatted;
+</script>
+
+</body>
+</html>
