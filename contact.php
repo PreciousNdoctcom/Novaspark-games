@@ -1,304 +1,108 @@
 <?php
+/* Contact: posts to itself, keeps values on error, replaces the form on success. */
+require __DIR__ . '/includes/helpers.php';
 
-session_start();
-$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+$topics = ['' => 'Choose a topic', 'Order question' => 'Order question', 'Game feedback' => 'Game feedback', 'Press' => 'Press', 'Other' => 'Other'];
+$user = current_user();
+$values = ['name' => '', 'email' => $user['email'] ?? '', 'topic' => '', 'subject' => '', 'message' => ''];
+$errors = [];
+$formError = '';
+
+if (is_post()) {
+    foreach ($values as $key => $_) {
+        $values[$key] = post($key);
+    }
+    if (!csrf_check()) {
+        $formError = "This form expired. We've kept what you typed; press Send again.";
+    } else {
+        if ($values['name'] === '') {
+            $errors['name'] = 'Enter your name.';
+        } elseif (mb_strlen($values['name']) > 100) {
+            $errors['name'] = 'Use 100 characters or fewer for your name.';
+        }
+        if ($values['email'] === '') {
+            $errors['email'] = 'Enter your email.';
+        } elseif (!filter_var($values['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = 'Enter an email like name@example.com.';
+        }
+        if (!isset($topics[$values['topic']])) {
+            $values['topic'] = '';
+        }
+        if ($values['subject'] === '') {
+            $errors['subject'] = 'Enter your subject.';
+        } elseif (mb_strlen($values['subject']) > 150) {
+            $errors['subject'] = 'Use 150 characters or fewer for the subject.';
+        }
+        if ($values['message'] === '') {
+            $errors['message'] = 'Enter your message.';
+        } elseif (mb_strlen($values['message']) > 5000) {
+            $errors['message'] = 'Use 5,000 characters or fewer for your message.';
+        }
+    }
+
+    if (!$errors && $formError === '') {
+        $subjectLine = 'Contact form: ' . ($values['topic'] !== '' ? '[' . $values['topic'] . '] ' : '') . str_replace(["\r", "\n"], ' ', $values['subject']);
+        $body = "New message from the Novaspark Games contact form\n\n"
+              . 'Name: ' . $values['name'] . "\n"
+              . 'Email: ' . $values['email'] . "\n"
+              . 'Topic: ' . ($values['topic'] !== '' ? $values['topic'] : 'Not given') . "\n"
+              . 'Subject: ' . $values['subject'] . "\n\n"
+              . $values['message'] . "\n";
+        send_mail(config('STUDIO_EMAIL'), $subjectLine, $body);
+        flash('contact_sent', ['name' => $values['name'], 'email' => $values['email']]);
+        redirect('contact.php?sent=1');
+    }
+}
+
+$sent = flash('contact_sent');
+
+$pageTitle = 'Contact';
+$active = 'contact';
+$pageDescription = 'Questions about an order, feedback on a game, or a press enquiry.';
+require __DIR__ . '/includes/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us — Novaspark Games</title>
- 
-    <link rel="stylesheet" href="Stylesheet.css">
- 
-    <style>
- 
-      .contact-card {
-        max-width: 700px;
-        margin: 0 auto;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(144, 238, 100, 0.18);
-        border-radius: 12px;
-        padding: 2.5rem 2.5rem 2rem;
-      }
- 
-      .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.25rem 1.5rem;
-      }
- 
-      .form-grid .full {
-        grid-column: 1 / -1;
-      }
- 
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 7px;
-      }
- 
-      .field-label {
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        color: rgba(144, 238, 100, 0.8);
-      }
- 
-      .field-label .req {
-        color: #ff6b6b;
-        margin-left: 2px;
-      }
- 
-      .form-grid input,
-      .form-grid select,
-      .form-grid textarea {
-        width: 100%;
-        background: rgba(0, 0, 0, 0.35);
-        border: 1px solid rgba(144, 238, 100, 0.22);
-        border-radius: 7px;
-        padding: 10px 13px;
-        font-size: 14px;
-        color: #e8f5e0;
-        outline: none;
-        transition: border-color 0.2s, box-shadow 0.2s;
-        font-family: inherit;
-      }
- 
-      .form-grid input::placeholder,
-      .form-grid textarea::placeholder {
-        color: rgba(200, 230, 180, 0.35);
-      }
- 
-      .form-grid select option {
-        background: #0d2010;
-        color: #e8f5e0;
-      }
- 
-      .form-grid select {
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2390ee64' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 12px center;
-        padding-right: 34px;
-        cursor: pointer;
-      }
- 
-      .form-grid textarea {
-        resize: vertical;
-        min-height: 130px;
-        line-height: 1.6;
-      }
- 
-      .form-grid input:focus,
-      .form-grid select:focus,
-      .form-grid textarea:focus {
-        border-color: rgba(144, 238, 100, 0.7);
-        box-shadow: 0 0 0 3px rgba(144, 238, 100, 0.12);
-      }
- 
-      .form-message {
-        font-size: 13px;
-        min-height: 1.2em;
-        margin: 0;
-        color: #ff6b6b;
-      }
- 
-      .required-note {
-        font-size: 12px;
-        color: rgba(200, 230, 180, 0.45);
-        text-align: right;
-        margin-top: -0.25rem;
-      }
- 
-      .form-divider {
-        border: none;
-        border-top: 1px solid rgba(144, 238, 100, 0.1);
-        margin: 0.25rem 0;
-        grid-column: 1 / -1;
-      }
- 
-      .btn-row {
-        display: flex;
-        justify-content: center;
-        margin-top: 0.5rem;
-      }
- 
-      .btn-row .btn-primary {
-        width: 100%;
-        max-width: 320px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 12px 2rem;
-        font-size: 14px;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-      }
- 
-      @media (max-width: 560px) {
-        .contact-card {
-          padding: 1.5rem 1.25rem;
-        }
- 
-        .form-grid {
-          grid-template-columns: 1fr;
-        }
- 
-        .form-grid .full {
-          grid-column: 1;
-        }
-      }
- 
-    </style>
-</head>
-<body>
- 
-  <header id="site-header">
-    <div class="header-inner">
-      <div class="site-logo">NOVASPARK GAMES</div>
- 
-      <nav class="site-nav" aria-label="Main navigation">
-        <a href="Home_Page.html" class="nav-link">Home</a>
-        <a href="products.php"   class="nav-link">Products</a>
-        <a href="About.html"     class="nav-link">About Us</a>
-        <a href="contact.php"    class="nav-link nav-link--active">Contact Us</a>
-        <a href="search.php"     class="nav-link">Search</a>
-        <a href="order.php"      class="nav-link">Order</a>
-        <a href="login.php"      class="nav-link">Login</a>
-        <a href="links.html"     class="nav-link">Useful Links</a>
-      </nav>
-    </div>
+<div class="container page">
+  <header class="page-head">
+    <h1 class="h1">Contact us</h1>
+    <p class="lead">Questions about an order, feedback on a game, or a press enquiry: we'll reply within two working days.</p>
   </header>
- 
-  <main id="main-content">
-    <section class="section form-container">
- 
-      <h1 class="hero-title" style="text-align: center; margin-bottom: 10px;">Get In Touch</h1>
-      <p class="hero-sub" style="text-align: center; margin-bottom: 36px;">
-        Whether you have a question about an order, feedback on one of our
-        games, or a press enquiry, we'd love to hear from you. Fill in the
-        form below and we'll aim to respond within two working days.
-      </p>
- 
-      <div class="contact-card">
- 
-        <form action="handle_form.php" method="post" id="contact-grid"
-              onsubmit="return validateContactForm(event)">
- 
-          <input type="hidden" name="csrf_token"
-                 value="<?php echo $_SESSION['csrf_token']; ?>">
- 
-          <div class="form-grid">
- 
-            <div class="form-group">
-              <label for="contact-name" class="field-label">
-                Name <span class="req">*</span>
-              </label>
-              <input type="text"
-                     id="contact-name"
-                     name="name"
-                     placeholder="First and last name"
-                     autocomplete="name">
-            </div>
- 
-            <div class="form-group">
-              <label for="contact-email" class="field-label">
-                Email <span class="req">*</span>
-              </label>
-              <input type="email"
-                     id="contact-email"
-                     name="email"
-                     placeholder="name@domain.com"
-                     autocomplete="email">
-            </div>
- 
-            <div class="form-group">
-              <label for="contact-title" class="field-label">
-                Title <span class="req">*</span>
-              </label>
-              <select id="contact-title" name="gender">
-                <option value="">-- Select Title --</option>
-                <option value="M">Mr</option>
-                <option value="F">Ms</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Dr">Dr</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
- 
-            <div class="form-group">
-              <label for="contact-age" class="field-label">
-                Age Range <span class="req">*</span>
-              </label>
-              <select id="contact-age" name="age">
-                <option value="">-- Select Age Range --</option>
-                <option value="0-29">Under 30</option>
-                <option value="30-60">Between 30 and 60</option>
-                <option value="60+">Over 60</option>
-              </select>
-            </div>
- 
-            <hr class="form-divider">
- 
-            <div class="form-group full">
-              <label for="contact-subject" class="field-label">
-                Subject <span class="req">*</span>
-              </label>
-              <input type="text"
-                     id="contact-subject"
-                     name="subject"
-                     placeholder="What is your message about?">
-            </div>
- 
-            <div class="form-group full">
-              <label for="contact-comments" class="field-label">
-                Message <span class="req">*</span>
-              </label>
-              <textarea id="contact-comments"
-                        name="comments"
-                        rows="5"
-                        placeholder="Type your message here..."></textarea>
-            </div>
- 
-            <p class="required-note full">
-              <span style="color:#ff6b6b;">*</span> All fields are required
-            </p>
- 
-            <p id="validation-feedback" class="form-message full"></p>
- 
-            <div class="btn-row full">
-              <button type="submit" class="btn-primary">
-                Submit
-              </button>
-            </div>
- 
+
+  <div class="split split--form">
+    <div>
+      <?php if ($sent): ?>
+        <?= alert('success', "Message sent. Thanks, {$sent['name']}. We'll reply to {$sent['email']} within two working days.", ['id' => 'sent-message']) ?>
+        <p class="mt-5"><a class="link-arrow" href="<?= e(url('contact.php')) ?>">Send another message <?= icon('arrow') ?></a></p>
+      <?php else: ?>
+        <form class="form" method="post" action="<?= e(url('contact.php')) ?>" data-validate>
+          <?= csrf_field() ?>
+          <div data-error-summary>
+            <?php if ($formError): ?><?= alert('error', $formError) ?><?php endif; ?>
+            <?= error_summary($errors) ?>
           </div>
- 
+          <?= field('name', 'Name', ['value' => $values['name'], 'error' => $errors['name'] ?? '', 'autocomplete' => 'name', 'required' => true, 'attrs' => 'maxlength="100"']) ?>
+          <?= field('email', 'Email', ['type' => 'email', 'value' => $values['email'], 'error' => $errors['email'] ?? '', 'autocomplete' => 'email', 'required' => true, 'attrs' => 'data-label="email"']) ?>
+          <?= field('topic', 'Topic', ['type' => 'select', 'value' => $values['topic'], 'options' => $topics, 'optional' => true]) ?>
+          <?= field('subject', 'Subject', ['value' => $values['subject'], 'error' => $errors['subject'] ?? '', 'required' => true, 'attrs' => 'maxlength="150"']) ?>
+          <?= field('message', 'Message', ['type' => 'textarea', 'rows' => 6, 'value' => $values['message'], 'error' => $errors['message'] ?? '', 'required' => true, 'attrs' => 'maxlength="5000"']) ?>
+          <div><button type="submit" class="btn btn--primary" data-loading-text="Sending…">Send message</button></div>
         </form>
- 
-      </div>
- 
-    </section>
-  </main>
- 
-  <footer id="site-footer">
-    <div class="footer-inner">
-      <span class="footer-brand">Novaspark Games</span>
-      <span class="footer-sep">|</span>
-      <a href="mailto:info@novasparkgames.example.com" class="footer-link">
-        info@novasparkgames.example.com
-      </a>
-      <span class="footer-sep">|</span>
-      <span class="footer-note">&copy; 2026 Novaspark Games</span>
+      <?php endif; ?>
     </div>
-  </footer>
- 
-  <script src="script.js"></script>
- 
-</body>
-</html>
+
+    <aside class="stack" aria-label="Other ways to reach us">
+      <div class="info-card">
+        <h2 class="info-card__title"><?= icon('clock') ?> Response time</h2>
+        <p>We reply within two working days, Monday to Friday.</p>
+      </div>
+      <div class="info-card">
+        <h2 class="info-card__title"><?= icon('mail') ?> Email</h2>
+        <p><a href="mailto:<?= e(config('PUBLIC_EMAIL')) ?>"><?= e(config('PUBLIC_EMAIL')) ?></a></p>
+      </div>
+      <div class="info-card">
+        <h2 class="info-card__title"><?= icon('bag') ?> Order questions</h2>
+        <p>Your order number is in your confirmation email and on <a href="<?= e(url('my-orders.php')) ?>">My orders</a>. Include it so we can help faster.</p>
+      </div>
+    </aside>
+  </div>
+</div>
+<?php require __DIR__ . '/includes/footer.php'; ?>

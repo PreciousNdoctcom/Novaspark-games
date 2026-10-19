@@ -1,0 +1,14 @@
+{
+  "buildCommand": "python3 tools/generate-art.py assets/img",
+  "functions": {
+    "api/index.php": {
+      "runtime": "vercel-php@0.8.0",
+      "includeFiles": "{*.php,admin/**,includes/**,database/**}"
+    }
+  },
+  "routes": [
+    { "src": "/assets/(.*)", "headers": { "cache-control": "public, max-age=3600" }, "continue": true },
+    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/(.*)", "dest": "/api/index.php" }
+  ]
+}
