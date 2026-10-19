@@ -1,7 +1,6 @@
-# Novaspark Games (version 2 redesign)
+# Novaspark Games
 
-A game storefront built for an MSc Computing module (University of Sunderland).
-Customers register, log in, browse, search, filter by genre and place simulated
+A game storefront that allows customers to register, log in, browse, search, filter by genre and place simulated
 orders; admins manage games and users and see every order. **No payment is ever taken.**
 
 ## Tech stack
